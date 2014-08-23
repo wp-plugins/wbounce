@@ -4,7 +4,7 @@
  * Plugin URI: http://kevinw.de/wbounce
  * Description: wBounce improves bounce rate to boost conversions and sales. The free alternative to Bounce Exchange for WordPress.
  * Author: Kevin Weber
- * Version: 1.1.1
+ * Version: 1.0
  * Author URI: http://kevinw.de/
  * License: MIT
  * Text Domain: wbounce
@@ -15,11 +15,11 @@ if ( !defined( 'WBOUNCE_OPTION_KEY' ) ) {
 }
 
 if (!defined('WBOUNCE_VERSION_NUM'))
-    define('WBOUNCE_VERSION_NUM', '1.1.1');
+    define('WBOUNCE_VERSION_NUM', '1.0');
 if (!defined('WBOUNCE_VERSION_KEY'))
     define('WBOUNCE_VERSION_KEY', WBOUNCE_OPTION_KEY.'_version');
 // Store the plugin version for upgrades
-add_option( WBOUNCE_VERSION_KEY, WBOUNCE_VERSION_NUM );
+add_option(WBOUNCE_VERSION_KEY, WBOUNCE_VERSION_NUM);
 
 
 if ( !defined( 'WBOUNCE_PLUGIN_NAME' ) ) {
@@ -68,7 +68,7 @@ class Wbounce_Init {
 	}
 	function admin_init() {
 		require_once( WBOUNCE_PATH . 'admin/class-admin-options.php' );
-		require_once( WBOUNCE_PATH . 'admin/class-meta.php' );
+		require_once( INCOM_PATH . 'admin/class-meta-boxes.php' );
 	}
 
 	function frontend_init() {

@@ -8,17 +8,16 @@ new Wbounce_Frontend();
 class Wbounce_Frontend {
 
 	function __construct() {
-		$this->create_modal();
-		$this->add_actions();
+		add_action( 'wp_head', array( $this, 'custom_css') );
+		add_action( 'wp_footer', array( $this, 'wp_footer'), 0, WBOUNCE_OPTION_KEY.'-functions' );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_jquery' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_style') );
 	}
 
 	/**
 	 * Create modal
 	 */
-	function create_modal() {
-		add_filter( 'wp_footer', array( $this, 'create_modal_content' ), 0 );
-	}
-
 	function create_modal_content() { ?>
 	
 		<div id="wbounce-modal" class="wbounce-modal" style="display:none">
@@ -45,8 +44,8 @@ class Wbounce_Frontend {
 	        <div class="modal-body" style="text-align:center">
 
 	        	<p><a href="http://kevinw.de/" target="_blank"><img src="http://www.gravatar.com/avatar/9d876cfd1fed468f71c84d26ca0e9e33?d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536&s=100" style="-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;"></a></p>
-				<p><a href="http://kevinw.de/" target="_blank" style="color:#009000;font-size:1.25em"><h4>wBounce by Kevin Weber</h4></a></p>
-				<p style="font-size:1.2em">I\'m the developer of this plugin. Feel free to contact and follow me <a href="https://twitter.com/kevinweber" title="Kevin Weber on Twitter" target="_blank" style="color:#4099FF">on Twitter</a>. And subscribe to my list for WordPress enthusiasts:</p>
+				<p><a href="http://kevinw.de/" target="_blank" style="color:#009000;font-size:20px"><h4>wBounce by Kevin Weber</h4></a></p>
+				<p style="font-size:15px">I\'m the developer of this plugin. Feel free to contact and follow me <a href="https://twitter.com/kevinweber" title="Kevin Weber on Twitter" target="_blank" style="color:#4099FF">on Twitter</a>. And subscribe to my list for WordPress enthusiasts:</p>
 
 				<div id="mc_embed_signup">
 				<form action="//kevinw.us2.list-manage.com/subscribe/post?u=f65d804ad274b9c8812b59b4d&amp;id=39ca44d8d3" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
@@ -69,87 +68,17 @@ class Wbounce_Frontend {
 	}
 
 	/**
-	 * Add actions
+	 * Add Code to Footer
 	 */
-	function add_actions() {
-		add_action( 'wp_head', array( $this, 'custom_css') );
-		add_action( 'wp_footer', array( $this, 'wp_footer'), 10, WBOUNCE_OPTION_KEY.'-functions' );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_jquery' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_style') );
+	function wp_footer() {
+		if ($this->test_if_status_is_off()) return;
+
+		$this->create_modal_content();
+		$this->load_footer_script();
 	}
 
-	/**
-	 * Add Scripts into Footer
-	 */
-	function wp_footer() { ?>
+	function load_footer_script() { ?>
 		<script>
-
-		// // Javascript-only version (does not work work optimal on any site and in any case; no full cross-browser support)
-		// document.body.onload=function(){
-		// 	var modalId = document.getElementById('wbounce-modal');
-		// 	var modalIdClass = modalId.getElementsByTagName('modal')[0];
-		// 	ouibounce(modalId, {
-		//       	<?php
-	 //      		// Aggressive Mode
-	 //      		if (
-	 //      			( get_option(WBOUNCE_OPTION_KEY.'_aggressive_mode') == '1' ) ||
-	 //      			( current_user_can( 'manage_options' ) && ( get_option(WBOUNCE_OPTION_KEY.'_test_mode') == '1' ) )
-	 //      		) {
-	 //      			echo 'aggressive:true,';
-		//       	}
-	 //      		// Timer
-	 //      		if ( get_option(WBOUNCE_OPTION_KEY.'_timer') != "" ) {
-	 //      			echo 'timer:'.get_option(WBOUNCE_OPTION_KEY.'_timer').',';
-	 //      		}
-		//       	?>
-		//       	// Callback
-		// 		// callback: function() {
-		// 		// 	ga('send', 'event', 'wbounce', 'bounce', document.URL);
-		// 		//	// do_action ...
-		// 		// },
-		// 	});
-		// 	addListener(document.body, 'click', function(e) {
-		//             modalId.style.display = 'none';
-		//     	}
-		// 	);
-		// 	addListener(document.getElementById('wbounce-modal-sub'), 'click', function(e) {
-		// 		cancelBubble(e);
-		// 	});
-
-		// 	var matchClass = 'modal-footer';
-		//     var elems = document.getElementsByTagName('*'), i;
-		//     for (i in elems) {
-		//         if((' ' + elems[i].className + ' ').indexOf(' ' + matchClass + ' ')
-		//                 > -1) {
-
-		// 			addListener(elems[i], 'click', function(e) {
-		// 				modalId.style.display = 'none';
-		// 			});
-
-		//         }
-		//     }
-
-		// 	// Cancel event bubbling (as described here: http://www.javascripter.net/faq/canceleventbubbling.htm)
-		// 	function cancelBubble(e) {
-		// 		var evt = e ? e:window.event;
-		// 		if (evt.stopPropagation)    evt.stopPropagation();
-		// 		if (evt.cancelBubble!=null) evt.cancelBubble = true;
-		// 	}
-
-		// 	/**
-		// 	 * Utility to wrap the different behaviors between W3C-compliant browsers
-		// 	 * and IE when adding event handlers.
-		// 	 */
-		// 	function addListener(element, type, callback) {
-		// 	 if (element.addEventListener) element.addEventListener(type, callback);
-		// 	 else if (element.attachEvent) element.attachEvent('on' + type, callback);
-		// 	}
-		// };
-
-
-
-		// jQuery version
 			var $<?= WBOUNCE_OPTION_KEY ?> = jQuery.noConflict();
 
 			$<?= WBOUNCE_OPTION_KEY ?>(document).ready(function() {
@@ -163,10 +92,32 @@ class Wbounce_Frontend {
 	      		) {
 	      			echo 'aggressive:true,';
 		      	}
-	      		// Timer
+		      	// Cookie expiration
+	      		if ( get_option(WBOUNCE_OPTION_KEY.'_cookieexpire') != "" ) {
+	      			echo 'cookieExpire:'.get_option(WBOUNCE_OPTION_KEY.'_cookieexpire').',';
+	      		}
+
+	      		// Cookie domain
+	      		// ...
+
+	      		// Sitewide cookie
+	      		// ...
+
+	      		// Timer (Set a min time before Ouibounce fires)
 	      		if ( get_option(WBOUNCE_OPTION_KEY.'_timer') != "" ) {
 	      			echo 'timer:'.get_option(WBOUNCE_OPTION_KEY.'_timer').',';
 	      		}
+	      		// Delay
+	      		// ...
+
+	      		// Sensitivity
+	      		if ( get_option(WBOUNCE_OPTION_KEY.'_sensitivity') != "" ) {
+	      			echo 'sensitivity:'.get_option(WBOUNCE_OPTION_KEY.'_sensitivity').',';
+	      		}
+
+	      		// Callback
+	      		// ...
+	      		
 		      	?>
 		      });
 
@@ -206,6 +157,8 @@ class Wbounce_Frontend {
 	 * Add Custom CSS
 	 */
 	function custom_css(){
+		if ($this->test_if_status_is_off()) return;
+
 		echo '<style type="text/css">';
 		if (stripslashes(get_option(WBOUNCE_OPTION_KEY.'_custom_css')) != '') {
 			echo stripslashes(get_option(WBOUNCE_OPTION_KEY.'_custom_css'));
@@ -218,5 +171,35 @@ class Wbounce_Frontend {
  	 */
  	function enqueue_jquery() {
      	wp_enqueue_script( 'jquery' );
+ 	}
+
+ 	/**
+ 	 * Test if status is "off" for specific post/page
+ 	 */
+ 	function test_if_status_is_off() {
+		global $post;
+
+		if (!isset($post->ID)) {
+			$id = null;
+		}
+		else {
+			$id = $post->ID;
+		}
+		
+		// When the individual status for a page/post is 'off', all the other setting don't matter. So this has to be tested at first. 
+		if ( get_post_meta( $id, 'wbounce_status', true ) && get_post_meta( $id, 'wbounce_status', true ) === 'off' ) {
+			return true;
+		}
+		else if (
+			( !get_option(WBOUNCE_OPTION_KEY.'_status_default') ) ||	// Fire when no option is defined yet
+			( get_post_meta( $id, 'wbounce_status', true ) === 'on' ) ||
+			( get_option(WBOUNCE_OPTION_KEY.'_status_default') === 'on' ) ||
+			( get_option(WBOUNCE_OPTION_KEY.'_status_default') === 'on_posts' && is_single() ) ||
+			( get_option(WBOUNCE_OPTION_KEY.'_status_default') === 'on_pages' && is_page() )
+		) {
+			return false;
+		}
+		else
+			return true;
  	}
 }
