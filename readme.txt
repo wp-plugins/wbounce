@@ -75,4 +75,4 @@ Demo and more information on the developer's website: [kevinw.de/wbounce](http:/
 2. Admin panel tab "content".
 3. Admin panel tab "options".
 4. Meta box besides post editor (v1.1).
-5. Post column displays status.
+5. Post column displays status (v1.1).
