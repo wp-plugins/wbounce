@@ -1,0 +1,1 @@
+!function(n,$,i){$(document).ready(function(){e()});var e=function(){t()},t=function(){$("#tabs").tabs()},c=function(){$("#kevinw_picker_bgcolor").farbtastic("#kevinw_picker_input_bgcolor")};$('input[type="number"]').keyup(function(){this.value!==this.value.replace(/[^0-9\.]/g,"")&&(this.value=this.value.replace(/[^0-9\.]/g,""))})}(window.incom=window.incom||{},jQuery);
