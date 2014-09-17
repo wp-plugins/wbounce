@@ -1,3 +1,4 @@
+/* v0.1 */
 h2 {
 	font-size: 23px;
 	line-height: 29px;
@@ -12,6 +13,7 @@ p.notice {
 	height: 27px;
 	margin: 20px 0;
 	padding: 0;
+	clear: left;
 }
 
 .ui-tabs-nav li {
@@ -113,7 +115,7 @@ input.regular-text {
 }
 
 input[type="number"] {
-	width: 60px;
+	width: 110px;
 }
 
 div#reset label {

@@ -5,7 +5,7 @@ License: MIT
 Tags: admin, newsletter, exit popup, exit popups, ab-testing, roi, conversion, conversion rate optimisation, free, plugin, wordpress, marketing, landing page
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 1.1.1
+Stable tag: 1.2
 
 wBounce improves bounce rate to boost conversions and sales. The free alternative to Bounce Exchange for WordPress.
 
@@ -24,7 +24,7 @@ Demo and more information on the developer's website: [kevinw.de/wbounce](http:/
 
 = Features: =
 * Set custom content via backend
-* Determine sensitivity, cookie expiration, ... 
+* Determine sensitivity, cookie expiration, hesitation, ... 
 * Add custom CSS
 * Set default status: Define if wBounce should be fired on posts and/or pages by default. You can override the default setting on every post and page individually.
 
@@ -32,7 +32,7 @@ Demo and more information on the developer's website: [kevinw.de/wbounce](http:/
 * Determine cookie domain, delay, and more!
 * Display popup on enter
 * Templates
-* Styling options (e.g., display "x" icon to close the popup, set background transparency, ...)
+* Styling options (display "x" icon to close the popup, set background transparency, ...)
 * Define custom content for pages and posts individually
 * Intelligent timer (e.g., display popup when the user is inactive for a certain time period)
 * Event tracking to measure wBounce with Google Analytics (a tutorial is going to be created, too)
@@ -48,10 +48,25 @@ Demo and more information on the developer's website: [kevinw.de/wbounce](http:/
 3. Optionally: Sign up to the wBounce newsletter to get notified about major updates.
 
 
+== Frequently Asked Questions ==
+
+= Does wBounce work with MailChimp, aWeber, GetResponse? =
+Yes! You can use any form from every newsletter service since you can insert HTML code into the "wBounce content" text field. Simply copy the form code that's provided by MailChimp (or any other newsletter service) into the "wBounce content" text field.
+
+Additionally, you can add CSS using the "Custom CSS" text field.
+
+
 == Changelog ==
 
+= 1.2 =
+* Improvement: Added support for shortcodes that are inserted into the "wBounce content" text area.
+* New feature: Hesitation. wBounce waits x milliseconds before showing the model when the user's cursor leaves the window.
+* Improvement: Only load scripts and CSS when they are actually needed.
+* Improvement: Merged CSS from two files into one.
+* Fixed "unexpected T_PAAMAYIM_NEKUDOTAYIM".
+
 = 1.1.1 =
-* New feature: Deactivate wBounce for pages and posts individually (“wBounce status”).
+* New feature: Deactivate wBounce for pages and posts individually ("wBounce status").
 * New feature: Define if wBounce should be fired on posts and/or pages by default.
 * New feature: The wBounce status can be seen in an additional column on the overview for posts and pages.
 * New feature: Sensitivity.

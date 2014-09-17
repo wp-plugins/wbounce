@@ -20,12 +20,11 @@ class Wbounce_Frontend {
 	 */
 	function create_modal_content() { ?>
 	
-		<div id="wbounce-modal" class="wbounce-modal" style="display:none">
-			<div class="underlay"></div>
+		<div id="wbounce-modal" class="wbounce-modal underlay" style="display:none">
 			<div id="wbounce-modal-sub" class="modal">
 				<?php 
 					if (stripslashes(get_option(WBOUNCE_OPTION_KEY.'_content')) != '') {
-						echo stripslashes(get_option(WBOUNCE_OPTION_KEY.'_content'));
+						echo do_shortcode( stripslashes(get_option(WBOUNCE_OPTION_KEY.'_content')) );
 					}
 					else {
 						$this->create_modal_content_default();
@@ -44,7 +43,7 @@ class Wbounce_Frontend {
 	        <div class="modal-body" style="text-align:center">
 
 	        	<p><a href="http://kevinw.de/" target="_blank"><img src="http://www.gravatar.com/avatar/9d876cfd1fed468f71c84d26ca0e9e33?d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536&s=100" style="-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;"></a></p>
-				<p><a href="http://kevinw.de/" target="_blank" style="color:#009000;font-size:20px"><h4>wBounce by Kevin Weber</h4></a></p>
+				<p><a href="http://kevinw.de/wbounce" target="_blank" style="color:#009000;font-size:20px"><h4>wBounce by Kevin Weber</h4></a></p>
 				<p style="font-size:15px">I\'m the developer of this plugin. Feel free to contact and follow me <a href="https://twitter.com/kevinweber" title="Kevin Weber on Twitter" target="_blank" style="color:#4099FF">on Twitter</a>. And subscribe to my list for WordPress enthusiasts:</p>
 
 				<div id="mc_embed_signup">
@@ -103,12 +102,15 @@ class Wbounce_Frontend {
 	      		// Sitewide cookie
 	      		// ...
 
-	      		// Timer (Set a min time before Ouibounce fires)
+	      		// Timer (Set a min time before wBounce fires)
 	      		if ( get_option(WBOUNCE_OPTION_KEY.'_timer') != "" ) {
 	      			echo 'timer:'.get_option(WBOUNCE_OPTION_KEY.'_timer').',';
 	      		}
-	      		// Delay
-	      		// ...
+
+	      		// Hesitation
+	      		if ( get_option(WBOUNCE_OPTION_KEY.'_hesitation') != "" ) {
+	      			echo 'delay:'.get_option(WBOUNCE_OPTION_KEY.'_hesitation').',';
+	      		}
 
 	      		// Sensitivity
 	      		if ( get_option(WBOUNCE_OPTION_KEY.'_sensitivity') != "" ) {
@@ -117,6 +119,9 @@ class Wbounce_Frontend {
 
 	      		// Callback
 	      		// ...
+	      		// Delay/Intelligent timer
+	      		// ...
+
 	      		
 		      	?>
 		      });
@@ -141,6 +146,8 @@ class Wbounce_Frontend {
 	 * Add scripts (like JS)
 	 */
 	function enqueue_scripts() {
+		if ($this->test_if_status_is_off()) return;
+		
 		wp_enqueue_script( WBOUNCE_OPTION_KEY.'-function', plugins_url( 'js/min/'.WBOUNCE_OPTION_KEY.'-ck.js' , plugin_dir_path( __FILE__ ) ) );	
 	}
 
@@ -148,9 +155,10 @@ class Wbounce_Frontend {
 	 * Add stylesheet
 	 */
 	function enqueue_style() {
+		if ($this->test_if_status_is_off()) return;
+
 		wp_register_style( WBOUNCE_OPTION_KEY.'-style', plugins_url('css/min/'.WBOUNCE_OPTION_KEY.'.css', plugin_dir_path( __FILE__ ) ) );
-		wp_register_style( WBOUNCE_OPTION_KEY.'-extended-style', plugins_url('css/min/'.WBOUNCE_OPTION_KEY.'_extended.css', plugin_dir_path( __FILE__ ) ) );
-		wp_enqueue_style( array( WBOUNCE_OPTION_KEY.'-style', WBOUNCE_OPTION_KEY.'-extended-style' ) );
+		wp_enqueue_style( WBOUNCE_OPTION_KEY.'-style' );
 	}
 
 	/**
@@ -170,6 +178,8 @@ class Wbounce_Frontend {
  	 * Enable jQuery (comes with WordPress)
  	 */
  	function enqueue_jquery() {
+ 		if ($this->test_if_status_is_off()) return;
+
      	wp_enqueue_script( 'jquery' );
  	}
 
