@@ -5,7 +5,7 @@ License: MIT
 Tags: admin, newsletter, exit popup, exit popups, ab-testing, roi, conversion, conversion rate optimisation, free, plugin, wordpress, marketing, landing page
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 1.2.1
+Stable tag: 1.3
 
 wBounce improves bounce rate to boost conversions and sales. The free alternative to Bounce Exchange for WordPress.
 
@@ -18,22 +18,23 @@ wBounce is the free alternative to charged services like Bounce Exchange or Opti
 
 One concern in everyone's interest: Make sure to provide VALUE when you use wBounce and don't spam your visitors.
 
-This plugin makes it extremely easy to implement exit popups. You don't have to manually "hack" your WordPress theme. Just activate and modify it via your admin backend.
+This plugin makes it extremely easy to implement exit popups. You don't have to manually "hack" your WordPress theme. Just activate and modify it via your admin backend. It works with WordPress Multisite so that you can define a wBounce template for each site in your network.
 
-Demo and more information on the developer's website: [kevinw.de/wbounce](http://kevinw.de/wbounce)
+Demo and more information on the developer's website: [kevinw.de/wbounce/](http://kevinw.de/wbounce/)
 
 = Features: =
+* Display inline popup before the user leaves the site
+* Alternatively display popup on enter or after a certain time period
 * Set custom content via backend
-* Determine sensitivity, cookie expiration, hesitation, ... 
+* Shortcodes are supported
+* Determine sensitivity, cookie expiration, hesitation, and more.
 * Add custom CSS
 * Set default status: Define if wBounce should be fired on posts and/or pages by default. You can override the default setting on every post and page individually.
 
 = Future features: =
-* Determine cookie domain, delay, and more!
-* Display popup on enter
-* Templates
-* Styling options (display "x" icon to close the popup, set background transparency, ...)
 * Define custom content for pages and posts individually
+* Templates with intelligent template variables/shortcodes
+* Styling options (display "x" icon to close the popup, set background transparency, ...)
 * Intelligent timer (e.g., display popup when the user is inactive for a certain time period)
 * Event tracking to measure wBounce with Google Analytics (a tutorial is going to be created, too)
 * A/B testing with Google Analytics
@@ -55,11 +56,25 @@ Yes! You can use any form from every newsletter service since you can insert HTM
 
 Additionally, you can add CSS using the "Custom CSS" text field.
 
+= How to use [Jetpack's Subscriptions module](http://jetpack.me/support/subscriptions/) with wBounce? =
+Use Jetpack's shortcode within the wBounce content field:
+`[jetpack_subscription_form]`
+You can even extend the shortcode using modifiers as [explained by Jetpack](http://jetpack.me/support/subscriptions/).
+
 
 == Changelog ==
 
+= 1.3 =
+* Renamed functions.php to wbounce.php. (This will cause your WordPress site to automatically deactivate wBounce. So you simply have to activate it again, that’s it.)
+* New feature: Self-acting fire (timer). Automatically trigger the popup after a certain time period.
+* New feature: Cookie domain.
+* New: The cookie is stored for the whole site (and not only for specific pages/posts).
+* New feature: Cookie per page. With this option enabled, every page/post gets its own cookie.
+* Fix: Added CSS "box-sizing: border-box".
+* Fix: Added CSS to make wBounce work with themes that use Bootstrap 3.
+
 = 1.2.1 =
-* Fixed broken post view
+* Fixed broken post view.
 
 = 1.2 =
 * Improvement: Added support for shortcodes that are inserted into the "wBounce content" text area.
@@ -82,6 +97,9 @@ Additionally, you can add CSS using the "Custom CSS" text field.
 
 
 == Upgrade Notice ==
+
+= 1.2.2 =
+* Renamed functions.php to wbounce.php. This will cause your WordPress site to automatically deactivate wBounce. So you simply have to activate it again, that’s it.
 
 = 1.0 =
 * Plugin goes public.

@@ -16,9 +16,8 @@ class Wbounce_Frontend {
 	 * Create modal
 	 */
 	function create_modal_content() { ?>
-	
 		<div id="wbounce-modal" class="wbounce-modal underlay" style="display:none">
-			<div id="wbounce-modal-sub" class="modal">
+			<div id="wbounce-modal-sub" class="wbounce-modal-sub modal">
 				<?php 
 					if (stripslashes(get_option(WBOUNCE_OPTION_KEY.'_content')) != '') {
 						echo do_shortcode( stripslashes(get_option(WBOUNCE_OPTION_KEY.'_content')) );
@@ -88,16 +87,26 @@ class Wbounce_Frontend {
 	      		) {
 	      			echo 'aggressive:true,';
 		      	}
+
+	      		// Auto fire (automatically trigger the popup after a certain time)
+	      		if ( get_option(WBOUNCE_OPTION_KEY.'_autofire') != "" ) {
+	      			echo 'autoFire:'.get_option(WBOUNCE_OPTION_KEY.'_autofire').',';
+	      		}
+
 		      	// Cookie expiration
 	      		if ( get_option(WBOUNCE_OPTION_KEY.'_cookieexpire') != "" ) {
 	      			echo 'cookieExpire:'.get_option(WBOUNCE_OPTION_KEY.'_cookieexpire').',';
 	      		}
 
 	      		// Cookie domain
-	      		// ...
+	      		if ( get_option(WBOUNCE_OPTION_KEY.'_cookiedomain') != "" ) {
+	      			echo 'cookieDomain:'.get_option(WBOUNCE_OPTION_KEY.'_cookiedomain').',';
+	      		}
 
-	      		// Sitewide cookie
-	      		// ...
+	      		// Cookie per page (sitewide cookie)
+	      		if ( get_option(WBOUNCE_OPTION_KEY.'_sitewide') != '1' ) {
+		      		echo 'sitewide:true,';
+		      	}
 
 	      		// Timer (Set a min time before wBounce fires)
 	      		if ( get_option(WBOUNCE_OPTION_KEY.'_timer') != "" ) {
@@ -114,12 +123,13 @@ class Wbounce_Frontend {
 	      			echo 'sensitivity:'.get_option(WBOUNCE_OPTION_KEY.'_sensitivity').',';
 	      		}
 
+		      	// Custom cookie name
+		      	echo "cookieName:'wBounce',";
+
 	      		// Callback
-	      		// ...
+	      		// ... TODO: trigger Google Analytics event
 	      		// Delay/Intelligent timer
 	      		// ...
-
-	      		
 		      	?>
 		      });
 
@@ -131,7 +141,7 @@ class Wbounce_Frontend {
 		        $<?= WBOUNCE_OPTION_KEY ?>('#wbounce-modal').hide();
 		      });
 
-		      $<?= WBOUNCE_OPTION_KEY ?>('#wbounce-modal .modal').on('click', function(e) {
+		      $<?= WBOUNCE_OPTION_KEY ?>('#wbounce-modal-sub').on('click', function(e) {
 		        e.stopPropagation();
 		      });
 
