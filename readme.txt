@@ -62,7 +62,7 @@ You can actually insert any shortcode that is provided by other plugins. For exa
 
 By the way, [MailPoet](https://wordpress.org/plugins/wysija-newsletters/) allows to set up autoresponders, so give it a try.
 
-Another well-known newsletter plugin is [SendPress](https://wordpress.org/plugins/sendpress/) that offers shortcodes that look like this:
+Another well-known newsletter plugin, [SendPress](https://wordpress.org/plugins/sendpress/), offers shortcodes that look like this:
 `[sp-form formid=18547]`
 
 Notice: If a plugin or service doesn't offer such a shortcode, you can still insert any HTML code. I’m pretty sure that every useful newsletter service offers at least a piece of HTML code that works with wBounce :-)
