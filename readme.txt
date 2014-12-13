@@ -3,9 +3,9 @@ Contributors: kevinweber
 Donate link: http://kevinw.de/donate/wBounce/
 License: MIT
 Tags: admin, newsletter, exit popup, exit popups, ab-testing, roi, conversion, conversion rate optimisation, free, plugin, wordpress, marketing, landing page
-Requires at least: 3.0
+Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.3
+Stable tag: 1.3.3
 
 wBounce improves bounce rate to boost conversions and sales. The free alternative to Bounce Exchange for WordPress.
 
@@ -74,6 +74,13 @@ You can even extend the shortcode using modifiers as [explained by Jetpack](http
 
 
 == Changelog ==
+
+= 1.3.3 =
+* Fix: Improved self-acting fire. When self-acting fire fired, don't use exit popup again.
+* Major CSS update: Removed fix height so that the content determines the modal's height. Default width is still 600px. When the modal's content requires more space than the screen is high, the modal is scrollable. Raised z-index from 1 to 21. Use CSS property "transform" to centre the modal vertically. Added margin to prevent the modal from being overlapped by the admin bar.
+* New feature: Load script before footer. Normally, scripts are placed in <head> of the HTML document. If this parameter is true, the script is placed before the </body> end tag. This requires the theme to have the wp_footer() template tag in the appropriate place.
+* Improvement: Use not minified JavaScript files when SCRIPT_DEBUG is true (defined in wp-config.php).
+* Added version number to scripts.
 
 = 1.3 =
 * Renamed functions.php to wbounce.php. (This will cause your WordPress site to automatically deactivate wBounce. So you simply have to activate it again, that’s it.)

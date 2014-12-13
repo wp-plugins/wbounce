@@ -8,19 +8,27 @@ class Kevinw_Admin_Options {
 
 	private $optionKey;
 	private $optionPageUrlName;
+	private $versionCurrent;
 
-	function setOptionPageUrlName( $value ){
+	function setOptionPageUrlName( $value ) {
 		$this->optionPageUrlName = $value;
 	}
-	function getOptionPageUrlName(){
+	function getOptionPageUrlName() {
 		return $this->optionPageUrlName;
 	}
 
-	function setOptionKey( $value ){
+	function setOptionKey( $value ) {
 		$this->optionKey = $value;
 	}
-	function getOptionKey(){
+	function getOptionKey() {
 		return $this->optionKey;
+	}
+
+	function setVersionCurrent( $value ) {
+		$this->versionCurrent = $value;
+	}
+	function getVersionCurrent() {
+		return $this->versionCurrent;
 	}
 
 	function kevinw_admin_options_init() {
@@ -49,7 +57,11 @@ class Kevinw_Admin_Options {
 	 * Admin JS
 	 */
 	function kevinw_admin_js() {
-	    wp_enqueue_script( 'kevinw_admin_js', plugins_url( '../js/min/admin-ck.js' , __FILE__ ), array( 'jquery', 'jquery-ui-tabs' ) );
+		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+			wp_enqueue_script( 'kevinw_admin_js', plugins_url( '../js/admin.js' , __FILE__ ), array( 'jquery', 'jquery-ui-tabs', 'wp-color-picker' ), $this->getVersionCurrent() );
+		} else {
+			wp_enqueue_script( 'kevinw_admin_js', plugins_url( '../js/min/admin-ck.js' , __FILE__ ), array( 'jquery', 'jquery-ui-tabs', 'wp-color-picker' ), $this->getVersionCurrent() );
+		}
 	}
 
 	/**
@@ -57,7 +69,7 @@ class Kevinw_Admin_Options {
 	 */
 	function kevinw_admin_css() {
 		wp_enqueue_style( 'kevinw_admin_css', plugins_url('../css/min/admin.css', __FILE__) );
-		wp_enqueue_style( 'farbtastic' );	// Required for colour picker
+		// wp_enqueue_style( 'wp-color-picker' );	// Required for colour picker
 	}
 
 	/**
