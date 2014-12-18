@@ -77,15 +77,39 @@ class Wbounce_Frontend {
 			var $<?php echo WBOUNCE_OPTION_KEY; ?> = jQuery.noConflict();
 			var fired = false;	// Set "fired" to true as soon as the popup is fired
 			var cookieName = 'wBounce';
-			var aggressive = "<?php $this->test_if_aggressive(); ?>";
+			var aggressive = <?php echo $this->test_if_aggressive(); ?>;
 
 
 			$<?php echo WBOUNCE_OPTION_KEY; ?>(document).ready(function() {
+
+/*
+ * AUTOFIRE JS
+ * Setup variables for autoFire
+ */
+var _delayTimer = null;
+var autoFire = null;
+<?php
+if ( $this->test_if_given_str('autoFire') ) {
+	echo 'autoFire = '.$this->get_option('autoFire').';';
+}
+?>
+
+function isInteger(x) {
+	return (typeof x === 'number') && (x % 1 === 0);
+}
+function handleAutoFire(e) {
+	if ( (_ouibounce.checkCookieValue( cookieName, 'true') && !aggressive ) || fired === true ) return;
+	_delayTimer = setTimeout(_ouibounce._fireAndCallback, 0);
+}
+if ( isInteger(autoFire) && autoFire !== null ) {
+  setTimeout( handleAutoFire, autoFire );
+}
+/*** /AUTOFIRE JS ***/
+
 		      var _ouibounce = ouibounce(document.getElementById('wbounce-modal'), {
 		      	<?php
 		      	// Echo options that require a string input
 		      	$option_str = array(
-		      		'autofire',	// Auto fire (automatically trigger the popup after a certain time)
 		      		'cookieexpire',	// Cookie expiration
 		      		'cookiedomain', // Cookie domain
 		      		'timer', // Timer (Set a min time before wBounce fires)
@@ -134,32 +158,6 @@ class Wbounce_Frontend {
 		        e.stopPropagation();
 		      });
 
-/*
- * AUTOFIRE JS
- * Setup variables for autoFire
- */
-var _delayTimer = null;
-var delay = 0;	// The default 0 is needed for the autoFire option
-var autoFire = null;
-<?php
-if ( $this->test_if_given_str('autoFire') ) {
-	echo 'autoFire = '.$this->get_option('autoFire').';';
-}
-?>
-
-function isInteger(x) {
-	return (typeof x === 'number') && (x % 1 === 0);
-}
-function handleAutoFire(e) {
-	if ( (_ouibounce.checkCookieValue( cookieName, 'true') && !aggressive) || fired === true ) return;
-	_delayTimer = setTimeout(_ouibounce._fireAndCallback, delay);
-	fired = true;
-}
-if ( isInteger(autoFire) && autoFire !== null ) {
-  setTimeout( handleAutoFire, autoFire );
-}
-/*** /AUTOFIRE JS ***/
-
 			});
 		</script>
 	<?php }
@@ -180,7 +178,7 @@ if ( isInteger(autoFire) && autoFire !== null ) {
 		return ( 
 			( $this->get_option('aggressive_mode') == '1' ) ||
 		    ( current_user_can( 'manage_options' ) && ( $this->get_option('test_mode') == '1' ) )
-		 ) ? true : false;
+		 ) ? "true" : "false";
 	}
 
 	/**
