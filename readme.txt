@@ -5,7 +5,7 @@ License: MIT
 Tags: admin, newsletter, exit popup, exit popups, ab-testing, roi, conversion, conversion rate optimisation, free, plugin, wordpress, marketing, landing page
 Requires at least: 3.5
 Tested up to: 4.1
-Stable tag: 1.3.4.5
+Stable tag: 1.4
 
 wBounce improves bounce rate to boost conversions and sales. The free alternative to Bounce Exchange for WordPress.
 
@@ -32,13 +32,13 @@ You want to enhance this plugin? Please [contribute on Github](https://github.co
 * Determine sensitivity, cookie expiration, hesitation, and more
 * Add custom CSS
 * Set default status: Define if wBounce should be fired on posts and/or pages by default. You can override the default setting on every post and page individually.
+* Event tracking with Google Analytics
 
 = Future features: =
 * Define custom content for pages and posts individually
 * Templates with intelligent template variables/shortcodes
 * Styling options (display "x" icon to close the popup, set background transparency, ...)
 * Intelligent timer (e.g., display popup when the user is inactive for a certain time period)
-* Event tracking to measure wBounce with Google Analytics
 * A/B testing with Google Analytics
 * ... YOU want one of those features RIGHT NOW or want to implement a feature yourself? [Contribute on Github](https://github.com/kevinweber/wbounce) and I'll publish your enhancements to the official WordPress directory.
 
@@ -75,6 +75,11 @@ You can even extend the shortcode using modifiers as [explained by Jetpack](http
 
 
 == Changelog ==
+
+= 1.4 =
+* New feature: Event tracking with Google Analytics.
+* Extended "Default status" drop-down list with "Fire on posts and pages".
+* Added 15% discount code for OptinMonster.
 
 = 1.3.4.5 =
 * Fixed not working cookieDomain.

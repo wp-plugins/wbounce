@@ -4,8 +4,9 @@
  * Version: 0.1
 */
 class Kevinw_Admin {
-	function __construct() {
-		require_once( 'admin/class-admin-options.php' );
+
+	function __construct( $arr ) {
+		$this->setup_admin_options( $arr );
 	}
 
 	function setup_admin_options( $arr ) {

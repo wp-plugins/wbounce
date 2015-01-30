@@ -74,71 +74,85 @@ class Wbounce_Frontend {
 
 	function load_footer_script() { ?>
 		<script>
-			var $<?php echo WBOUNCE_OPTION_KEY; ?> = jQuery.noConflict();
+		(function ( $ ) {
 			var fired = false;	// Set "fired" to true as soon as the popup is fired
 			var cookieName = 'wBounce';
 			var aggressive = '<?php echo $this->test_if_aggressive(); ?>';
 
+			$(document).ready(function() {
+				if (typeof ouibounce !== 'undefined' && $.isFunction(ouibounce)) {
+			      var _ouibounce = ouibounce(document.getElementById('wbounce-modal'), {
+			      	<?php
+			      	// Echo options that require a string input
+			      	$option_str = array(
+			      		'cookieExpire',	// Cookie expiration
+			      		'cookieDomain', // Cookie domain
+			      	);	
+		      		foreach ($option_str as $str) {
+		      			$this->echo_option_str( $str );
+		      		}
 
-			$<?php echo WBOUNCE_OPTION_KEY; ?>(document).ready(function() {
+			      	// Echo options that require an integer input
+			      	$option_int = array(
+			      		'timer', // Timer (Set a min time before wBounce fires)
+			      		'sensitivity',	// Sensitivity
+			      	);	
+		      		foreach ($option_int as $int) {
+		      			$this->echo_option_int( $int );
+		      		}
 
+		      		// Aggressive Mode
+		      		if ( $this->test_if_aggressive() ) {
+		      			echo 'aggressive:true,';
+			      	}
 
+		      		// Cookie per page (sitewide cookie)
+		      		if ( get_option(WBOUNCE_OPTION_KEY.'_sitewide') != '1' ) {
+			      		echo 'sitewide:true,';
+			      	}
 
-		      var _ouibounce = ouibounce(document.getElementById('wbounce-modal'), {
-		      	<?php
-		      	// Echo options that require a string input
-		      	$option_str = array(
-		      		'cookieExpire',	// Cookie expiration
-		      		'cookieDomain', // Cookie domain
-		      		'timer', // Timer (Set a min time before wBounce fires)
-		      		'sensitivity',	// Sensitivity
-		      	);	
-	      		foreach ($option_str as $str) {
-	      			$this->echo_option_str( $str );
-	      		}
+		      		// Hesitation
+		      		if ( $this->test_if_given_str('hesitation') ) {
+		      			echo 'delay:'.$this->get_option('hesitation').',';
+		      		}
 
-	      		// Aggressive Mode
-	      		if ( $this->test_if_aggressive() ) {
-	      			echo 'aggressive:true,';
-		      	}
+			      	// Custom cookie name
+			      	echo "cookieName:cookieName,";
 
-	      		// Cookie per page (sitewide cookie)
-	      		if ( get_option(WBOUNCE_OPTION_KEY.'_sitewide') != '1' ) {
-		      		echo 'sitewide:true,';
-		      	}
+		      		// Callback
+		      		echo
+		      		"callback:function(){".
+		      			"fired = true;".	// Set fired to "true" when popup is fired
+		      			$this->analytics_action('fired').
+		      		"}"	
 
-	      		// Hesitation
-	      		if ( $this->test_if_given_str('hesitation') ) {
-	      			echo 'delay:'.$this->get_option('hesitation').',';
-	      		}
+		      		// Delay/Intelligent timer
+		      		// ...
+			      	?>
+			      });
+				};
 
-		      	// Custom cookie name
-		      	echo "cookieName:cookieName,";
-
-	      		// Callback
-	      		echo "callback:function(){fired = true;}"	// Set fired to "true" when popup is fired
-	      		// ... TODO: trigger Google Analytics event
-
-	      		// Delay/Intelligent timer
-	      		// ...
-		      	?>
+		      $('body').on('click', function() {
+		        $('#wbounce-modal').hide();
+		        <?php echo $this->analytics_action('hidden_outside'); ?>
 		      });
 
-		      $<?php echo WBOUNCE_OPTION_KEY; ?>('body').on('click', function() {
-		        $<?php echo WBOUNCE_OPTION_KEY; ?>('#wbounce-modal').hide();
+		      $('#wbounce-modal .modal-close').on('click', function() {
+		        $('#wbounce-modal').hide();
+		        <?php echo $this->analytics_action('hidden_close'); ?>
 		      });
 
-		      $<?php echo WBOUNCE_OPTION_KEY; ?>('#wbounce-modal .modal-footer').on('click', function() {
-		        $<?php echo WBOUNCE_OPTION_KEY; ?>('#wbounce-modal').hide();
+		      $('#wbounce-modal .modal-footer').on('click', function() {
+		        $('#wbounce-modal').hide();
+		        <?php echo $this->analytics_action('hidden_footer'); ?>
 		      });
 
-		      $<?php echo WBOUNCE_OPTION_KEY; ?>('#wbounce-modal-sub').on('click', function(e) {
+		      $('#wbounce-modal-sub').on('click', function(e) {
 		        e.stopPropagation();
 		      });
 
 /*
  * AUTOFIRE JS
- * Setup variables for autoFire
  */
 var autoFire = null;
 <?php
@@ -160,6 +174,8 @@ if ( isInteger(autoFire) && autoFire !== null ) {
 /*** /AUTOFIRE JS ***/
 
 			});
+
+		})(jQuery);
 		</script>
 	<?php }
 
@@ -174,6 +190,11 @@ if ( isInteger(autoFire) && autoFire !== null ) {
   			echo $optionname.':\''.$this->get_option(strtolower($optionname)).'\',';
   		}
 	}
+	function echo_option_int( $optionname ) {
+  		if ( $this->test_if_given_str(strtolower($optionname)) ) {
+  			echo $optionname.':'.$this->get_option($optionname).',';
+  		}
+	}
 
 	function test_if_aggressive() {
 		return ( 
@@ -181,6 +202,30 @@ if ( isInteger(autoFire) && autoFire !== null ) {
 		    ( current_user_can( 'manage_options' ) && ( $this->get_option('test_mode') == '1' ) )
 		 ) ? true : false;
 	}
+
+
+	/**
+	 * Test if analytics is enabled
+	 */
+	function is_analytics_enabled() {
+		return ( get_option(WBOUNCE_OPTION_KEY.'_analytics') == '1' ) ? true : false;
+	}
+	/**
+	 * Set analytics event
+	 * @param String
+	 */
+	function analytics_action( $action ) {
+		return (!$this->is_analytics_enabled()) ? '' :
+		"ga('send', 'event', ".$this->analytics_category().", '$action', ".$this->analytics_label().");";
+	}
+	private function analytics_category() {
+		return '\'wBounce\'';
+	}
+	private function analytics_label() {
+		return 'document.URL';
+	}
+
+
 
 	/**
 	 * Add scripts (like JS)
@@ -249,7 +294,8 @@ if ( isInteger(autoFire) && autoFire !== null ) {
 			( get_post_meta( $id, 'wbounce_status', true ) === 'on' ) ||
 			( get_option(WBOUNCE_OPTION_KEY.'_status_default') === 'on' ) ||
 			( get_option(WBOUNCE_OPTION_KEY.'_status_default') === 'on_posts' && is_single() ) ||
-			( get_option(WBOUNCE_OPTION_KEY.'_status_default') === 'on_pages' && is_page() )
+			( get_option(WBOUNCE_OPTION_KEY.'_status_default') === 'on_pages' && is_page() ) ||
+			( get_option(WBOUNCE_OPTION_KEY.'_status_default') === 'on_posts_pages' && (is_single()||is_page()) )
 		) {
 			return false;
 		}
