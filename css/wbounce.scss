@@ -85,8 +85,12 @@ $white: #fff;
     display: block;
     position: relative;
     top: 50%;
+    left: initial;
     opacity: 1;
     overflow: scroll;
+    overflow-x: hidden;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
     max-width: 95%;
     max-height: 95%;
     width: 600px;
@@ -95,6 +99,9 @@ $white: #fff;
     margin: auto;
     border-radius: 4px;
     @include vendor-prefix( transform, translateY(-50%) );
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .modal-title {
