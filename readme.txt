@@ -4,8 +4,8 @@ Donate link: http://kevinw.de/donate/wBounce/
 License: MIT
 Tags: admin, newsletter, exit popup, exit popups, ab-testing, roi, conversion, conversion rate optimisation, free, plugin, wordpress, marketing, landing page
 Requires at least: 3.5
-Tested up to: 4.2
-Stable tag: 1.4.0.1
+Tested up to: 4.2.2
+Stable tag: 1.5
 
 wBounce improves bounce rate to boost conversions and sales. The free alternative to Bounce Exchange for WordPress.
 
@@ -45,9 +45,11 @@ You want to enhance this plugin? Please [contribute on Github](https://github.co
 
 == Installation ==
 
-1. Upload wBounce into you plugin directory (/wp-content/plugins/) and activate the plugin through the 'Plugins' menu in WordPress.
+1. Upload wBounce into your plugin directory (/wp-content/plugins/) and activate it through the 'Plugins' menu in WordPress.
 2. Configure the plugin via the admin backend and define your template. You can even insert shortcodes that are provided by your other plugins.
 3. Optionally: Sign up to the wBounce newsletter to get notified about major updates.
+
+Important: wBounce does not collect and store e-mail addresses itself. Therefore, you can insert any HTML. For example, you can copy the form code that's provided by MailChimp (or any other newsletter service) and the signups will be stored using your newsletter service.
 
 
 == Frequently Asked Questions ==
@@ -58,7 +60,7 @@ Yes! You can use any form from every newsletter service since you can insert HTM
 Additionally, you can add CSS using the "Custom CSS" text field.
 
 = How to use MailPoet, SendPress Newsletters and other plugins with wBounce? =
-You can actually insert any shortcode that is provided by other plugins. For example, to use MailPoet with wBounce, simply insert the provided shortcode that contains the form's ID, as follows:  
+You can actually insert any shortcode that is provided by other plugins, such as GravityForms or SendPress Newsletters. For example, to use MailPoet with wBounce, simply insert the provided shortcode that contains the form's ID, as follows:  
 `[wysija_form id="1"]`
 
 By the way, [MailPoet](https://wordpress.org/plugins/wysija-newsletters/) allows to set up autoresponders, so give it a try.
@@ -71,6 +73,15 @@ Notice: If a plugin or service doesn't offer such a shortcode, you can still ins
 = wBounce does not fire, scripts are not loaded or jQuery is loaded too late. What's wrong? =
 Probably your theme does not implement the wp_footer() function in the appropriate position, if at all. Always have it just before the closing </body> tag of your theme. [#support](https://wordpress.org/support/topic/plugin-does-not-fire-the-popup?replies=3#post-6530865)
 
+= How to translate popups (using WPML)? =
+You must have installed WPML Translation Management. Then you can do the following in the menu:
+
+1) Go to WPML > Translation Management > Multilingual Content Setup > Edit translatable admin strings
+2) Context: admin_texts_plugin_wbounce-master > Translate
+
+As soon as you save, the popup will appear in the appropriate language.
+(Thanks to Jan Sass for providing this answer.)
+
 = How to use Jetpack's Subscriptions module with wBounce? =
 Use Jetpack's shortcode within the wBounce content field:
 `[jetpack_subscription_form]`
@@ -78,6 +89,10 @@ You can even extend the shortcode using modifiers as [explained by Jetpack](http
 
 
 == Changelog ==
+
+= 1.5 =
+* HOT! New feature: Template engine to override templates on individual pages/posts. Introducing magic shortcodes.
+* Made the plugin translatable.
 
 = 1.4.0.1 =
 * Improved CSS to hide scrollbars in some browsers. Note: To hide scrollbars in all browsers completely, use the following custom CSS: .wbounce-modal .wbounce-modal-sub { overflow: hidden; }

@@ -3,18 +3,19 @@
 Plugin Name: wBounce
 Plugin URI: http://kevinw.de/wbounce/
 Description: wBounce improves bounce rate to boost conversions and sales. The free alternative to Bounce Exchange for WordPress.
-Version: 1.4.0.1
+Version: 1.5
 Author: Kevin Weber
 Author URI: http://kevinw.de/
 License: MIT
 Text Domain: wbounce
+Domain Path: /languages
 */
 if ( !defined( 'WBOUNCE_OPTION_KEY' ) ) {
 	define( 'WBOUNCE_OPTION_KEY', 'wbounce' );
 }
 
 if (!defined('WBOUNCE_VERSION_NUM'))
-    define('WBOUNCE_VERSION_NUM', '1.4.0.1');
+    define('WBOUNCE_VERSION_NUM', '1.5');
 if (!defined('WBOUNCE_VERSION_KEY'))
     define('WBOUNCE_VERSION_KEY', WBOUNCE_OPTION_KEY.'_version');
 // Store the plugin version for upgrades
@@ -36,7 +37,9 @@ if ( !defined( 'WBOUNCE_FILE' ) ) {
 if ( !defined( 'WBOUNCE_PATH' ) )
 	define( 'WBOUNCE_PATH', plugin_dir_path( __FILE__ ) );
 
+
 require_once( WBOUNCE_PATH . 'admin/class-register.php' );
+require_once( WBOUNCE_PATH . 'admin/inc/class-setup.php' );
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +65,8 @@ if ( defined( 'KEVINW_FRAMEWORK' ) ) {
 
 class Wbounce_Init {
 	function __construct() {
+		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
+
 		if ( is_admin() ) {
 			add_action( 'plugins_loaded', array( $this, 'admin_init' ), 14 );
 		}
@@ -69,6 +74,15 @@ class Wbounce_Init {
 			add_action( 'plugins_loaded', array( $this, 'frontend_init' ), 14 );
 		}
 	}
+
+	/**
+	 * Load plugin textdomain.
+	 * @since 1.5
+	 */
+	function load_textdomain() {
+	  load_plugin_textdomain( WBOUNCE_TD, false, dirname( plugin_basename( WBOUNCE_FILE ) ) . '/languages/' ); 
+	}
+
 	function admin_init() {
 		require_once( WBOUNCE_PATH . 'admin/class-admin-options.php' );
 		require_once( WBOUNCE_PATH . 'admin/class-meta.php' );
