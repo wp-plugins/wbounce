@@ -5,12 +5,12 @@ License: MIT
 Tags: admin, newsletter, exit popup, exit popups, ab-testing, roi, conversion, conversion rate optimisation, free, plugin, wordpress, marketing, landing page
 Requires at least: 3.5
 Tested up to: 4.2.2
-Stable tag: 1.5
+Stable tag: 1.5.1
 
 wBounce improves bounce rate to boost conversions and sales. The free alternative to Bounce Exchange for WordPress.
 
 == Description ==
-wBounce is the free exit popup software for WordPress, evolved by marketing technologist [Kevin Weber](http://kevinw.de). This plugin bases on [Ouibounce]( http://carlsednaoui.github.io/ouibounce/) by Carl Sednaoui.
+wBounce is the free exit popup software for WordPress, evolved by [Kevin Weber](http://kevinw.de). This plugin bases on [Ouibounce]( http://carlsednaoui.github.io/ouibounce/) by Carl Sednaoui.
 
 Exit popups are not only "in vogue", they are provably increasing conversions and therefore boost marketing, signups and sales. wBounce displays an inline popup before the user leaves your site. ("Inline popup" means that this is NOT one of those out-dated, annoying popups windows.) Inline popups catch the visitor's attention even if they are in the process of leaving your site.
 
@@ -22,25 +22,18 @@ This plugin makes it extremely easy to implement exit popups. You don't have to 
 
 Demo and more information on the developer's website: [kevinw.de/wbounce/](http://kevinw.de/wbounce/)
 
-You want to enhance this plugin? Please [contribute on Github](https://github.com/kevinweber/wbounce). I'm looking for a WordPress enthusiast who further develops this plugin; I'll give you guidance and promote you and the plugin.
+You want to enhance this plugin? Please [contribute on Github](https://github.com/kevinweber/wbounce).
 
 = Features: =
 * Display inline popup before the user leaves the site
 * Alternatively display popup on enter or after a certain time period (self-acting fire)
 * Set custom content via backend
-* Shortcodes are supported
+* Define custom content for pages and posts individually using a flexible template engine which uses so-called "magic shortcodes"
+* Shortcodes from other plugins are also supported
 * Determine sensitivity, cookie expiration, hesitation, and more
 * Add custom CSS
 * Set default status: Define if wBounce should be fired on posts and/or pages by default. You can override the default setting on every post and page individually.
 * Event tracking with Google Analytics
-
-= Future features: =
-* Define custom content for pages and posts individually
-* Templates with intelligent template variables/shortcodes
-* Styling options (display "x" icon to close the popup, set background transparency, ...)
-* Intelligent timer (e.g., display popup when the user is inactive for a certain time period)
-* A/B testing with Google Analytics
-* ... YOU want one of those features RIGHT NOW or want to implement a feature yourself? [Contribute on Github](https://github.com/kevinweber/wbounce) and I'll publish your enhancements to the official WordPress directory.
 
 
 == Installation ==
@@ -90,9 +83,12 @@ You can even extend the shortcode using modifiers as [explained by Jetpack](http
 
 == Changelog ==
 
+= 1.5.1 =
+* Fixed not working meta box besides page/post editor.
+
 = 1.5 =
 * HOT! New feature: Template engine to override templates on individual pages/posts. Introducing magic shortcodes.
-* Made the plugin translatable.
+* Made the plugin translatable. Great thanks to @senlin (https://github.com/senlin) for his contributions via wBounce on Github (https://github.com/kevinweber/wbounce).
 
 = 1.4.0.1 =
 * Improved CSS to hide scrollbars in some browsers. Note: To hide scrollbars in all browsers completely, use the following custom CSS: .wbounce-modal .wbounce-modal-sub { overflow: hidden; }
